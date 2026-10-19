@@ -1,0 +1,8 @@
+{
+  "name": "Nexyroth Clicker RPG v8.0",
+  "description": "An idle/clicker RPG featuring cosmic dark-fantasy theme, upgrade trees, responsive floating combat numbers, and Google Drive cloud saves.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

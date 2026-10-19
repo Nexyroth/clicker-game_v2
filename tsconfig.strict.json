@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true
+  },
+  "include": [
+    "src/core",
+    "src/data",
+    "src/engine",
+    "src/ui",
+    "src/bridge",
+    "src/types"
+  ]
+}

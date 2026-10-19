@@ -1,0 +1,212 @@
+/* ============================================================
+   NEXYROTH CLICKER - ANIMATIONS & GAME FEEL KEYFRAMES (v8.0)
+   ============================================================ */
+
+@keyframes core-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes core-rotate-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes core-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 35px 5px rgba(56, 189, 248, 0.25), 0 0 80px 10px rgba(129, 140, 248, 0.15);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 60px 15px rgba(56, 189, 248, 0.45), 0 0 110px 20px rgba(232, 121, 249, 0.25);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes click-crit-bounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(0.85) rotate(-5deg); }
+  65% { transform: scale(1.15) rotate(4deg); }
+  100% { transform: scale(1); }
+}
+
+.animate-click-crit {
+  animation: click-crit-bounce 0.22s ease-out !important;
+}
+
+@keyframes core-buff-glow {
+  0% {
+    box-shadow: 0 0 35px 6px rgba(56, 189, 248, 0.5), 0 0 70px 12px rgba(251, 191, 36, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 65px 18px rgba(56, 189, 248, 0.85), 0 0 110px 28px rgba(251, 191, 36, 0.75);
+  }
+}
+
+.has-active-buffs {
+  animation: core-buff-glow 1.2s infinite alternate ease-in-out !important;
+}
+
+@keyframes ripple-wave {
+  0% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.8);
+  }
+}
+
+.ripple-wave {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.6) 0%, rgba(168, 85, 247, 0.3) 50%, transparent 80%);
+  border: 2px solid rgba(56, 189, 248, 0.8);
+  animation: ripple-wave 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+  z-index: 25;
+}
+
+@keyframes float-up-fade {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, 0, 0) scale(0.6);
+  }
+  15% {
+    opacity: 1;
+    transform: translate3d(-50%, -15px, 0) scale(1.15);
+  }
+  40% {
+    opacity: 1;
+    transform: translate3d(calc(-50% + var(--scatter-x, 0px)), -40px, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(-50% + var(--scatter-x, 0px)), -75px, 0) scale(0.85);
+  }
+}
+
+@keyframes float-up-fade-crit {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, 0, 0) scale(0.7) rotate(0deg);
+  }
+  15% {
+    opacity: 1;
+    transform: translate3d(-50%, -25px, 0) scale(1.35) rotate(var(--crit-rot, 4deg));
+  }
+  45% {
+    opacity: 1;
+    transform: translate3d(calc(-50% + var(--scatter-x, 0px)), -70px, 0) scale(1.2) rotate(var(--crit-rot, 4deg));
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(-50% + var(--scatter-x, 0px)), -120px, 0) scale(0.9) rotate(calc(var(--crit-rot, 4deg) * 1.5));
+  }
+}
+
+.floating-number.crit-enhanced {
+  animation: float-up-fade-crit 1.0s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+  color: #fbbf24;
+  text-shadow: 0 0 12px #fbbf24, 0 0 25px #c084fc, 0 0 45px rgba(244, 63, 94, 0.8);
+  font-size: 1.45rem;
+  font-weight: 900;
+}
+
+@keyframes chest-float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.03);
+  }
+}
+
+@keyframes chest-glow-gold {
+  0%, 100% {
+    box-shadow: 0 0 15px 2px rgba(251, 191, 36, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px 6px rgba(251, 191, 36, 0.6);
+  }
+}
+
+.animate-chest-glow {
+  animation: chest-glow-gold 2.5s infinite ease-in-out;
+}
+.animate-chest-float {
+  animation: chest-float 3s infinite ease-in-out;
+}
+
+/* Skill Tree Vertical Connections */
+.skill-connector {
+  width: 4px;
+  height: 22px;
+  margin: 0 auto;
+  transition: background-color 0.3s ease;
+  border-radius: 2px;
+}
+.skill-connector.unlocked {
+  background: linear-gradient(180deg, #10b981, #34d399);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+}
+.skill-connector.locked {
+  background: #334155;
+}
+
+/* Bright White Flash on Critical Hit */
+@keyframes crit-white-flash {
+  0% { opacity: 0.95; transform: scale(1.02); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+.crit-flash-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.95), 0 0 80px rgba(251, 191, 36, 0.85);
+  pointer-events: none;
+  z-index: 25;
+  animation: crit-white-flash 0.16s ease-out forwards;
+}
+
+/* Combo Milestone Tooltip Pop */
+@keyframes combo-milestone-pop {
+  0% { transform: scale(0.65) translateY(12px); opacity: 0; }
+  35% { transform: scale(1.12) translateY(-4px); opacity: 1; }
+  70% { transform: scale(0.98) translateY(0); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.combo-milestone-tooltip {
+  animation: combo-milestone-pop 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Golden Cosmic Meteor / Comet Mini-Event */
+@keyframes meteor-trail-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px #fbbf24) drop-shadow(0 0 25px rgba(251, 191, 36, 0.8));
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    filter: drop-shadow(0 0 18px #f59e0b) drop-shadow(0 0 35px rgba(244, 63, 94, 0.9));
+    transform: scale(1.08) rotate(15deg);
+  }
+}
+
+.golden-meteor-entity {
+  position: fixed;
+  z-index: 999;
+  cursor: pointer;
+  user-select: none;
+  animation: meteor-trail-glow 1.5s infinite ease-in-out;
+  transition: transform 0.12s ease;
+}
+.golden-meteor-entity:hover {
+  transform: scale(1.25) !important;
+}
+

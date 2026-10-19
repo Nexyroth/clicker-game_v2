@@ -1,0 +1,29 @@
+/* ============================================================
+   NEXYROTH CLICKER - CSS DESIGN VARIABLES & THEME TOKENS
+   ============================================================ */
+
+:root {
+  --nx-bg: #07090e;
+  --nx-bg-elevated: #0d111a;
+  --nx-surface: #121826;
+  --nx-surface-hover: #1a2336;
+  --nx-surface-border: #1e293b;
+  --nx-border-glow: rgba(56, 189, 248, 0.25);
+
+  --nx-cyan: #38bdf8;
+  --nx-cyan-glow: rgba(56, 189, 248, 0.4);
+  --nx-violet: #818cf8;
+  --nx-violet-glow: rgba(129, 140, 248, 0.4);
+  --nx-magenta: #e879f9;
+  --nx-magenta-glow: rgba(232, 121, 249, 0.4);
+  --nx-gold: #fbbf24;
+  --nx-gold-glow: rgba(251, 191, 36, 0.4);
+  --nx-emerald: #34d399;
+  --nx-rose: #f43f5e;
+
+  --nx-text-primary: #f8fafc;
+  --nx-text-secondary: #94a3b8;
+  --nx-text-muted: #64748b;
+  
+  --header-height: 60px;
+}

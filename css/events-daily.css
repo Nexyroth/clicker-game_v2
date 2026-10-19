@@ -1,0 +1,366 @@
+/* ============================================================
+   NEXYROTH CLICKER - DAILY REWARDS & COSMIC EVENT STYLING
+   High-Fidelity Cyberpunk/Cosmic Design for Streaks & Quests
+   ============================================================ */
+
+/* Notification Badges on Header */
+.badge-ping {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f43f5e;
+  box-shadow: 0 0 10px #f43f5e;
+  border: 2px solid #0a0e17;
+  animation: pulse-ping 1.5s infinite;
+}
+
+@keyframes pulse-ping {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
+  70% { transform: scale(1.2); box-shadow: 0 0 0 8px rgba(244, 63, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+}
+
+/* DAILY LOGIN REWARDS CALENDAR */
+.daily-banner-box {
+  position: relative;
+  border-radius: 0.875rem;
+  overflow: hidden;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  padding: 1.25rem;
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  box-shadow: 0 0 25px rgba(251, 191, 36, 0.15);
+}
+
+.daily-banner-box img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+  filter: contrast(1.1) brightness(0.9);
+}
+
+.daily-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(13, 19, 34, 0.95) 0%, rgba(13, 19, 34, 0.6) 50%, rgba(13, 19, 34, 0.2) 100%);
+}
+
+.daily-banner-content {
+  position: relative;
+  z-index: 2;
+}
+
+.daily-streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  background: rgba(251, 191, 36, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  color: #fbbf24;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.daily-days-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.625rem;
+}
+
+@media (max-width: 540px) {
+  .daily-days-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.daily-day-card {
+  position: relative;
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.625rem;
+  background: rgba(18, 24, 38, 0.85);
+  border: 1px solid var(--nx-surface-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.daily-day-card.day-7-special {
+  grid-column: span 2;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, rgba(168, 85, 247, 0.15) 100%);
+  border: 1px solid rgba(251, 191, 36, 0.5);
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+}
+
+.daily-day-card.claimed {
+  opacity: 0.65;
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(56, 189, 248, 0.2);
+}
+
+.daily-day-card.claimed::after {
+  content: '✓ CLAIMED';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-12deg);
+  background: rgba(16, 185, 129, 0.9);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.08em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+
+.daily-day-card.ready-to-claim {
+  border-color: #fbbf24;
+  box-shadow: 0 0 18px rgba(251, 191, 36, 0.35);
+  animation: pulse-ready 2s infinite;
+}
+
+@keyframes pulse-ready {
+  0%, 100% { border-color: rgba(251, 191, 36, 0.5); box-shadow: 0 0 10px rgba(251, 191, 36, 0.2); }
+  50% { border-color: rgba(251, 191, 36, 1); box-shadow: 0 0 25px rgba(251, 191, 36, 0.5); }
+}
+
+.daily-day-number {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  color: var(--nx-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.daily-reward-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.625rem;
+  background: rgba(30, 41, 59, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  margin: 0.25rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.daily-reward-name {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.daily-reward-qty {
+  font-size: 0.6875rem;
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+  color: #fbbf24;
+}
+
+/* EVENT SYSTEM STYLES */
+.event-banner-box {
+  position: relative;
+  border-radius: 0.875rem;
+  overflow: hidden;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  padding: 1.25rem;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
+}
+
+.event-banner-box img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.38;
+}
+
+.event-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(13, 19, 34, 0.96) 0%, rgba(13, 19, 34, 0.7) 50%, rgba(13, 19, 34, 0.3) 100%);
+}
+
+.event-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #c084fc, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.event-timer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+/* Event Milestone Track */
+.milestones-track-box {
+  padding: 1rem;
+  border-radius: 0.875rem;
+  background: rgba(18, 24, 38, 0.75);
+  border: 1px solid var(--nx-surface-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.milestones-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.milestone-bar-container {
+  position: relative;
+  height: 10px;
+  background: #1e293b;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.milestone-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #818cf8, #c084fc, #fbbf24);
+  border-radius: 9999px;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
+}
+
+.milestone-nodes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.milestone-node {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--nx-surface-border);
+  border-radius: 0.625rem;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.milestone-node.unlocked {
+  border-color: rgba(251, 191, 36, 0.6);
+  background: rgba(251, 191, 36, 0.08);
+}
+
+.milestone-node.claimed {
+  opacity: 0.7;
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+/* Event Quests / Missions List */
+.event-quest-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border-radius: 0.75rem;
+  background: rgba(18, 24, 38, 0.8);
+  border: 1px solid var(--nx-surface-border);
+  transition: all 0.2s ease;
+}
+
+.event-quest-card:hover {
+  border-color: rgba(129, 140, 248, 0.4);
+  background: rgba(26, 35, 54, 0.85);
+}
+
+.event-quest-card.completed {
+  border-color: rgba(52, 211, 153, 0.5);
+  background: rgba(52, 211, 153, 0.06);
+}
+
+.quest-info-block {
+  flex: 1;
+  min-width: 0;
+}
+
+.quest-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.quest-name {
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.quest-token-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.6875rem;
+  font-family: ui-monospace, monospace;
+  font-weight: 800;
+  color: #c084fc;
+  background: rgba(192, 132, 252, 0.15);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.quest-desc {
+  font-size: 0.75rem;
+  color: var(--nx-text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.quest-progress-bar {
+  height: 6px;
+  border-radius: 9999px;
+  background: #1e293b;
+  overflow: hidden;
+}
+
+.quest-progress-fill {
+  height: 100%;
+  background: var(--nx-cyan);
+  border-radius: 9999px;
+  transition: width 0.25s ease;
+}

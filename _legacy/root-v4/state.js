@@ -1,0 +1,146 @@
+/**
+ * NEXYROTH CLICKER - STATE MANAGEMENT & PERSISTENCE
+ * Pure JavaScript
+ */
+(function (global) {
+  'use strict';
+
+  const SAVE_KEY = 'nexyroth_save_v4';
+
+  const DEFAULT_UPGRADES = [
+    { id: 'void_siphon', name: 'Void Siphon', desc: 'Extracts ambient dark matter from dimensional rift.', baseCost: 15, costMultiplier: 1.15, level: 0, baseEffect: 1, effectType: 'cps', unlockedAtLevel: 1, icon: 'zap' },
+    { id: 'astral_prism', name: 'Astral Prism', desc: 'Focuses cosmic rays to amplify direct click power.', baseCost: 50, costMultiplier: 1.18, level: 0, baseEffect: 2, effectType: 'click', unlockedAtLevel: 1, icon: 'sparkles' },
+    { id: 'nebula_harvester', name: 'Nebula Harvester', desc: 'Scoops stardust from nearby dying nebulae.', baseCost: 250, costMultiplier: 1.15, level: 0, baseEffect: 8, effectType: 'cps', unlockedAtLevel: 2, icon: 'cloud-lightning' },
+    { id: 'starlight_forge', name: 'Starlight Forge', desc: 'Synthesizes pure astral matter with extreme heat.', baseCost: 1200, costMultiplier: 1.14, level: 0, baseEffect: 35, effectType: 'cps', unlockedAtLevel: 3, icon: 'flame' },
+    { id: 'dimensional_drill', name: 'Dimensional Drill', desc: 'Pierces space-time to extract deep void essence.', baseCost: 7500, costMultiplier: 1.14, level: 0, baseEffect: 25, effectType: 'click', unlockedAtLevel: 4, icon: 'disc' },
+    { id: 'quantum_reactor', name: 'Quantum Reactor', desc: 'Splits void isotopes to release massive continuous energy.', baseCost: 45000, costMultiplier: 1.13, level: 0, baseEffect: 260, effectType: 'cps', unlockedAtLevel: 5, icon: 'atom' },
+    { id: 'celestial_dynamo', name: 'Celestial Dynamo', desc: 'Harnesses orbital gravity waves for perpetual generation.', baseCost: 320000, costMultiplier: 1.13, level: 0, baseEffect: 1800, effectType: 'cps', unlockedAtLevel: 7, icon: 'orbit' },
+    { id: 'singularity_core', name: 'Singularity Core', desc: 'A miniature black hole producing terrifying energy.', baseCost: 2500000, costMultiplier: 1.12, level: 0, baseEffect: 12000, effectType: 'cps', unlockedAtLevel: 10, icon: 'sun' },
+    { id: 'chrono_accelerator', name: 'Chrono Accelerator', desc: 'Bends local time forward to accelerate all gathering.', baseCost: 20000000, costMultiplier: 1.12, level: 0, baseEffect: 350, effectType: 'click', unlockedAtLevel: 12, icon: 'clock' },
+    { id: 'nexyroth_obelisk', name: 'Nexyroth Obelisk', desc: 'An ancient monument channeling infinite primordial abyss.', baseCost: 150000000, costMultiplier: 1.11, level: 0, baseEffect: 110000, effectType: 'cps', unlockedAtLevel: 15, icon: 'shield' }
+  ];
+
+  const DEFAULT_SKILLS = [
+    { id: 'void_power_1', name: 'Void Surge I', description: 'Increases direct click power by +25%.', branch: 'void', costPoints: 1, unlocked: false, effectType: 'clickPower', effectValue: 0.25 },
+    { id: 'void_power_2', name: 'Void Surge II', description: 'Increases direct click power by +40%.', branch: 'void', costPoints: 2, unlocked: false, reqSkillId: 'void_power_1', effectType: 'clickPower', effectValue: 0.40 },
+    { id: 'astral_flow_1', name: 'Astral Flow I', description: 'Increases passive CPS by +20%.', branch: 'astral', costPoints: 1, unlocked: false, effectType: 'cps', effectValue: 0.20 },
+    { id: 'astral_flow_2', name: 'Astral Flow II', description: 'Increases passive CPS by +35%.', branch: 'astral', costPoints: 2, unlocked: false, reqSkillId: 'astral_flow_1', effectType: 'cps', effectValue: 0.35 },
+    { id: 'chrono_crit_1', name: 'Dimensional Criticals', description: 'Grants +5% Critical Chance and +100% Critical damage.', branch: 'chrono', costPoints: 2, unlocked: false, effectType: 'critChance', effectValue: 0.05 },
+    { id: 'void_frenzy', name: 'Abyssal Frenzy', description: 'Increases Cosmic Rift duration by 50%.', branch: 'chrono', costPoints: 3, unlocked: false, reqSkillId: 'chrono_crit_1', effectType: 'frenzyDuration', effectValue: 0.50 }
+  ];
+
+  const DEFAULT_RELICS = [
+    { id: 'relic_eye', name: 'Eye of the Astral Seer', rarity: 'rare', effectDesc: '+15% Direct Click Power and +5% Critical Chance', equipped: true, clickBonus: 0.15, cpsBonus: 0, critBonus: 0.05, icon: 'eye' },
+    { id: 'relic_hourglass', name: 'Hourglass of Infinity', rarity: 'epic', effectDesc: '+25% Passive Cosmic Generation (CPS)', equipped: false, clickBonus: 0, cpsBonus: 0.25, critBonus: 0, icon: 'hourglass' },
+    { id: 'relic_heart', name: 'Heart of Nexyroth', rarity: 'legendary', effectDesc: '+40% Direct Click and +40% Passive CPS', equipped: false, clickBonus: 0.40, cpsBonus: 0.40, critBonus: 0.1, icon: 'heart' }
+  ];
+
+  const DEFAULT_ACHIEVEMENTS = [
+    { id: 'clicks_100', name: 'Awakened Spark', desc: 'Click the Nexyroth Core 100 times.', unlocked: false, rewardGems: 10, current: 0, target: 100, type: 'clicks' },
+    { id: 'clicks_1000', name: 'Void Pulse', desc: 'Click the Nexyroth Core 1,000 times.', unlocked: false, rewardGems: 30, current: 0, target: 1000, type: 'clicks' },
+    { id: 'essence_10k', name: 'Stardust Gatherer', desc: 'Accumulate 10,000 Cosmic Essence.', unlocked: false, rewardGems: 15, current: 0, target: 10000, type: 'essence' },
+    { id: 'essence_1m', name: 'Astral Tycoon', desc: 'Accumulate 1,000,000 Cosmic Essence.', unlocked: false, rewardGems: 50, current: 0, target: 1000000, type: 'essence' },
+    { id: 'level_10', name: 'Ascending Adept', desc: 'Reach Level 10.', unlocked: false, rewardGems: 25, current: 1, target: 10, type: 'level' },
+    { id: 'boss_1', name: 'Titan Slayer', desc: 'Defeat your first Dimensional Boss.', unlocked: false, rewardGems: 40, current: 0, target: 1, type: 'bosses' }
+  ];
+
+  const DEFAULT_GEM_SHOP_ITEMS = [
+    { id: 'gem_mult_1', name: 'Void Surge Prism', desc: 'Permanently doubles (x2) all Essence generation across all runs.', costGems: 50, purchased: false, value: 2 },
+    { id: 'gem_auto_click', name: 'Astral Drone', desc: 'Automatically clicks Core 5 times/sec continuously.', costGems: 80, purchased: false, value: 5 },
+    { id: 'gem_offline_boost', name: 'Stasis Chamber', desc: 'Offline progress efficiency boosted from 50% to 100% full speed.', costGems: 100, purchased: false, value: 1 },
+    { id: 'gem_crit_overload', name: 'Astral Supernova', desc: 'Permanently boosts Critical Strike Chance by +10% and Power by +200%.', costGems: 120, purchased: false, value: 0.1 }
+  ];
+
+  const BOSS_PRESETS = [
+    { id: 'boss_titan_1', name: 'Mal’Zakar the Void Titan', title: 'Harbinger of Dimensional Fractures', maxHp: 25000, currentHp: 25000, timeLimit: 30, remainingTime: 30, rewardGems: 30, rewardShards: 25, rewardExp: 250, active: false, level: 1 },
+    { id: 'boss_titan_2', name: 'Vor’Thex the Astral Devourer', title: 'Ancient Nebula Wyrm', maxHp: 250000, currentHp: 250000, timeLimit: 35, remainingTime: 35, rewardGems: 60, rewardShards: 80, rewardExp: 800, active: false, level: 2 },
+    { id: 'boss_titan_3', name: 'Nexyroth, Primordial Entity', title: 'Architect of Endless Void', maxHp: 3000000, currentHp: 3000000, timeLimit: 45, remainingTime: 45, rewardGems: 150, rewardShards: 300, rewardExp: 3500, active: false, level: 3 }
+  ];
+
+  function createInitialState() {
+    return {
+      version: 4,
+      essence: 0,
+      totalEssence: 0,
+      astralShards: 0,
+      totalAstralShards: 0,
+      astralGems: 25,
+
+      level: 1,
+      currentExp: 0,
+      maxExp: 100,
+      skillPoints: 0,
+
+      totalClicks: 0,
+      bossesDefeated: 0,
+      prestigeCount: 0,
+
+      lastSaveTime: Date.now(),
+      lastOfflineGain: 0,
+
+      upgrades: JSON.parse(JSON.stringify(DEFAULT_UPGRADES)),
+      skills: JSON.parse(JSON.stringify(DEFAULT_SKILLS)),
+      relics: JSON.parse(JSON.stringify(DEFAULT_RELICS)),
+      achievements: JSON.parse(JSON.stringify(DEFAULT_ACHIEVEMENTS)),
+      gemShopItems: JSON.parse(JSON.stringify(DEFAULT_GEM_SHOP_ITEMS)),
+      redeemedCodes: [],
+
+      settings: {
+        sfxEnabled: true,
+        sfxVolume: 0.5,
+        scientificNotation: false,
+        floatingNumbers: true,
+        particles: true
+      },
+      activeBoosts: []
+    };
+  }
+
+  let state = createInitialState();
+  let currentBoss = JSON.parse(JSON.stringify(BOSS_PRESETS[0]));
+
+  function loadState() {
+    try {
+      const saved = localStorage.getItem(SAVE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        state = Object.assign(createInitialState(), parsed);
+        // Ensure upgrades list has all entries
+        DEFAULT_UPGRADES.forEach(function (defU) {
+          if (!state.upgrades.some(function (u) { return u.id === defU.id; })) {
+            state.upgrades.push(JSON.parse(JSON.stringify(defU)));
+          }
+        });
+      }
+    } catch (e) {
+      console.error('Failed to load save:', e);
+    }
+  }
+
+  function saveState() {
+    state.lastSaveTime = Date.now();
+    try {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+    } catch (e) {
+      console.error('Failed to save:', e);
+    }
+  }
+
+  function resetState() {
+    localStorage.removeItem(SAVE_KEY);
+    state = createInitialState();
+    currentBoss = JSON.parse(JSON.stringify(BOSS_PRESETS[0]));
+    saveState();
+  }
+
+  global.GameState = {
+    get: function () { return state; },
+    set: function (newState) { state = newState; },
+    getBoss: function () { return currentBoss; },
+    setBoss: function (b) { currentBoss = b; },
+    getBossPresets: function () { return BOSS_PRESETS; },
+    load: loadState,
+    save: saveState,
+    reset: resetState
+  };
+})(typeof window !== 'undefined' ? window : this);
